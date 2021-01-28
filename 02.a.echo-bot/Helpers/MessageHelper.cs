@@ -10,7 +10,7 @@ namespace EchoBot
     {
         public static Dictionary<string, string> MessageOptions = new Dictionary<string, string>()
         {
-            { "help", "Welcome to Pro Bot 2.0 \n\nPossible Options:\n\nTime - current time\n\nBitcoin - current Bitcoin price\n\nJoke - Joke of the day\n\nAdvice - The best possible advice that you can get" },
+            { "help", "Possible Options:\n\nTime - current time\n\nBitcoin/BTC - current Bitcoin price\n\nJoke - Joke of the day\n\nAdvice - The best possible advice that you can get" },
             { "time", "Current time is {0}" },
             { "bitcoin", "Current BTC price is:\n\n{0} {1}\n\n{2} {3}\n\n{4} {5}" },
             { "btc", "Current BTC price is:\n\n{0} {1}\n\n{2} {3}\n\n{4} {5}" },

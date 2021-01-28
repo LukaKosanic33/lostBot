@@ -22,11 +22,26 @@ namespace Microsoft.BotBuilderSamples
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class MyBot : IBot
     {
+        private const string WelcomeText = "Welcome to Lost Bot 2.0\n\nWrite 'Help' to see all the awesome options!";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MyBot"/> class.
         /// </summary>                        
         public MyBot()
         {
+        }
+
+        private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var member in turnContext.Activity.MembersAdded)
+            {
+                if (member.Id != turnContext.Activity.Recipient.Id)
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Text = WelcomeText;
+                    await turnContext.SendActivityAsync(reply, cancellationToken);
+                }
+            }
         }
 
         /// <summary>
@@ -49,6 +64,13 @@ namespace Microsoft.BotBuilderSamples
                 // Echo back to the user whatever they typed.
                 var responseMessage = await MessageHelper.GetMessageResponse(turnContext.Activity.Text);
                 await turnContext.SendActivityAsync(responseMessage);
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                if (turnContext.Activity.MembersAdded != null)
+                {
+                    await SendWelcomeMessageAsync(turnContext, cancellationToken);
+                }
             }
             else
             {
